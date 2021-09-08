@@ -1,0 +1,101 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{lettrine}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{blindtext}
+\usepackage[most]{tcolorbox}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+    
+\renewcommand{\figurename}{Abbildung}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{block-gray}{gray}{0.95}
+
+\newtcolorbox{zitat}[2][]{%
+	colback=block-gray,
+	grow to right by=-1mm,
+	boxrule=0pt,
+	boxsep=0pt,
+	breakable,
+	enhanced jigsaw,
+	borderline west={2pt}{0pt}{gray},
+	title={#2\par},
+	colbacktitle={block-gray},
+	coltitle={black},
+	fonttitle={\large\bfseries},
+	attach title to upper={},
+	#1,
+}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{white},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                 
+    keepspaces=true,                                   
+    numbersep=5pt,                  
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=1
+}
+
+\lstset{style=mystyle}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RE,CO]{Seminar Neue Technologien, C++ und Performance, Hochschule Offenburg, WS 2021/22}
+\fancyfoot[LE,RO]{Seite \thepage}
+
+\begin{document}
+	\author{William Mendat, Angewandte Informatik, Hochschule Offenburg}
+	\date{\today}
+	\title{C++ und Performance}
+	\maketitle
+
+	\input{kapitel/abstract}
+	
+	\vspace{12pt}
+	\begin{IEEEkeywords}
+		C++, Performance
+	\end{IEEEkeywords}
+
+	\input{kapitel/einleitung}
+	%\input{kapitel/dartAllgemein}
+	\input{kapitel/takeFourProblem}
+	\input{kapitel/SpeicherMan}
+	\input{kapitel/tempObj}
+	\input{kapitel/kopieren}
+	\input{kapitel/rtti}
+	\input{kapitel/Fehlerbehandlung}
+	\input{kapitel/fazit}
+	\input{kapitel/schlusswort}
+	
+	
+	
+	
+	\input{Literatur}
+
+\end{document}

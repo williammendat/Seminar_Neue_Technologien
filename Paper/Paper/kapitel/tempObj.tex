@@ -1,0 +1,40 @@
+\section{Temporäre Objekte}
+Um Temporäre Objekte verstehen zu können, sollte zuerst geklärt werden, was \emph{lvalues} und \emph{rvalues} sind und worin diese zu Unterscheiden sind. Die Antwort darauf soll folgendes Zitat liefern: "In concept (though not always in practice), rvalues correspond to temporary objects returned from functions, while lvalues correspond to objects you can refer to, either by name or by following a pointer or lvalue reference. A useful heuristic to determine whether an expression is an lvalue is to ask if you can take its address. If you can, it typically is. If you can’t, it’s usually an rvalue.". \cite{EffectiveC++} Wie zu sehen ist, resultieren \emph{rvalues} oft in Temporären Objekten. Diese Objekte sind in so fern schlecht, da diese vom Compiler erzeugt werden nur um Daten zu servieren, um dann sofort wieder verworfen zu werden. Solch ein Verhalten frisst dann unnötigerweise Performance.\cite{HandsOn}
+\newline
+\newline
+Um ein solches Verhalten darzustellen, wird im folgenden eine Simple eigen Implementation der String klasse, sowie eine Funktion \emph{foo}, die eine \emph{const} Referenz übergeben bekommt gezeigt:
+
+\begin{lstlisting}[
+  				caption={Implementation einer String klasse},
+  				label=lst:String-klasse,
+  				language=C++,frame=tlrb]
+  				
+class String {
+public:
+	String() = default;
+	String(const String& other) = default;
+	
+	//Normaler Konstruktor um ein Objekt zu erzeugen
+	String(const char* string) {
+		printf("Created\n");
+		m_Size = strlen(string);
+		m_Data = new char[m_Size + 1];
+		memcpy(m_Data, string, m_Size);
+		m_Data[m_Size] = 0;
+	}
+	
+	[...]
+    
+	~String() {
+     printf("Deleted\n");
+     delete m_Data;
+    }
+protected:
+    uint32_t m_Size;
+    char* m_Data;
+};
+				
+void foo(const String& param); //<- Akzeptiert auch rvalues
+			\end{lstlisting}
+			
+Wenn \emph{foo} nun mit einem \emph{rvalue} aufgerufen wird, dann muss der Compiler eigenständig ein Temporäres Objekt erzeugen. Um so ein ungewolltest Verhalten zu vermeiden, wurde das \emph{explicit} Keyword eingeführt.  
