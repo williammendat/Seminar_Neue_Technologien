@@ -45,11 +45,11 @@ int main(int argc, char** argv)
 
 	//	std::cout << "-----------------------------------------------" << std::endl;
 	//}
-	for (uint64_t i = 0; i < times.size(); i++)
+	/*for (uint64_t i = 0; i < times.size(); i++)
 	{
 		doBenchmark(times[i]);
 		std::cout << "-----------------------------------------------" << std::endl;
-	}
+	}*/
 
 	/*uint64_t test = 0;
 
@@ -57,6 +57,8 @@ int main(int argc, char** argv)
 	{
 		test += i;
 	}*/
+
+	std::cout << "Test" << std::endl;
 
 	std::cout << "Finished" << std::endl;
 	std::cin.get();
