@@ -16,6 +16,19 @@
 \usepackage[T1]{fontenc}
 \usepackage{blindtext}
 \usepackage[most]{tcolorbox}
+\usepackage[backend=biber,
+	isbn=true,                     % ISBN nicht anzeigen, gleiches geht mit nahezu allen anderen Feldern
+	sortlocale=de_DE,               % Sortierung der Einträge für Deutsch
+%sortlocale=en_US,              % Sortierung der Einträge für Englisch
+	autocite=inline,                % regelt Aussehen für \autocite (inline=\parancite)
+	hyperref=true,                  % Hyperlinks für Ziate
+	style=numeric,                     % Zitate als Zahlen [1]
+%style=alphabetic               % Zitate als Kürzel und Jahr [Ein05]
+%style=authoryear                % Zitate Author und Jahr [Einstein (1905)]
+%style=LNI
+]{biblatex}
+
+\addbibresource{Literatur.bib}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -83,19 +96,17 @@
 	\end{IEEEkeywords}
 
 	\input{kapitel/einleitung}
-	%\input{kapitel/dartAllgemein}
 	\input{kapitel/takeFourProblem}
 	\input{kapitel/SpeicherMan}
 	\input{kapitel/tempObj}
 	\input{kapitel/kopieren}
 	\input{kapitel/rtti}
 	\input{kapitel/Fehlerbehandlung}
+	\input{kapitel/Strings}
 	\input{kapitel/fazit}
 	\input{kapitel/schlusswort}
-	
-	
-	
-	
-	\input{Literatur}
+
+
+	\printbibliograph
 
 \end{document}
