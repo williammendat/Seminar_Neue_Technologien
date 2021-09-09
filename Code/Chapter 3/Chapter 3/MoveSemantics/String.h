@@ -72,12 +72,13 @@ public:
 
 	String& operator+(const char* other) noexcept {
 		printf("Copied via +\n");
-		String temp = std::move(*this);
+		String temp = *this;
 
 		delete[] m_Data;
 		int other_Size = strlen(other);
 		m_Size = temp.m_Size + other_Size;
 		m_Data = new char[m_Size + 1];
+
 		int i = 0;
 
 		for (int j = 0; j < temp.m_Size; ++j, ++i)
@@ -97,7 +98,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const String& string);
 
 	~String() {
-		printf("Deleted\n");
+		//printf("Deleted\n");
 		delete m_Data;
 	}
 

@@ -41,7 +41,7 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \definecolor{block-gray}{gray}{0.95}
 
-\newtcolorbox{zitat}[2][]{%
+\newtcolorbox{zitat}{%
 	colback=block-gray,
 	grow to right by=-1mm,
 	boxrule=0pt,
@@ -49,7 +49,6 @@
 	breakable,
 	enhanced jigsaw,
 	borderline west={2pt}{0pt}{gray},
-	title={#2\par},
 	colbacktitle={block-gray},
 	coltitle={black},
 	fonttitle={\large\bfseries},
