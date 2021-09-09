@@ -16,7 +16,6 @@ static uint64_t Allocations = 0;
 
 void* operator new(size_t size) {
 	++Allocations;
-	//printf("Allocated %d Bytes\n", size);
 	return malloc(size);
 }
 
@@ -26,11 +25,9 @@ void PrintString(String string) {
 
 int main(int argc, char** argv)
 {
-	
-	String demo = String("Hello") + " World" + "!";
+	String demo = String("Hello") + " World!";
 	PrintString(demo);
 	std::cout << "New called " << Allocations << " times" << std::endl;
 	std::cin.get();
-
 }
 

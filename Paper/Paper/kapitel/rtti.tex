@@ -1,18 +1,22 @@
 \section{Runtime Type Identification}
-Runtime type Indentification kurz \emph{RTTI}, kann genutzt werden um sicher zwischen verschiedenen Typen in einer Klassenhierarchie zu \emph{casten}. Dabei verwendet \emph{RTTI} Metadaten, die einer Klasse hinzugefügt werden, die dann zur Laufzeit verwendet werden können. Mittels dem \emph{$dynamic\_cast$} Operator kann überprüft werden, ob zwischen einer Basisklasse und einer Abgeleiteten klasse gecastet werden kann. Im folgenden wird ein klassisches Beispiel für die Verwendung von \emph{$dynamic\_cast$} demonstriert:
+Runtime type Indentification kurz \emph{RTTI}, kann genutzt werden um sicher zwischen
+verschiedenen Typen in einer Klassenhierarchie zu \emph{casten}. Dabei verwendet \emph{RTTI}
+Metadaten, die einer Klasse hinzugefügt werden, die dann zur Laufzeit verwendet werden können.
+Mittels dem \emph{$dynamic\_cast$} Operator kann überprüft werden, ob zwischen einer Basisklasse
+und einer Abgeleiteten klasse gecastet werden kann. Im folgenden wird ein klassisches Beispiel
+für die Verwendung von \emph{$dynamic\_cast$} demonstriert:
 \begin{lstlisting}[
-  				caption={Demonstration von \emph{$dynamic\_cast$}},
-  				label=lst:Dynamic-Cast,
-  				language=C++,frame=tlrb]
-  				
+    caption={Demonstration von \emph{dynamic\_cast}},
+    label=lst:Dynamic-Cast,
+    language=C++,frame=tlrb]
 class Stringbuilder : public String {
 public:
 	Stringbuilder(const char* string)
 		:String(string) { }
 
-    void PrintString() override { 
-    	std::cout << *this 
-       	<< " printed with Stringbuilder" << std::endl; 
+    void PrintString() override {
+    	std::cout << *this
+       	<< " printed with Stringbuilder" << std::endl;
     }
 };
 
@@ -20,14 +24,22 @@ int main(int argc, char** argv){
 	String demo = new Stringbuilder("Demo");
 	Stringbuilder* demoBuilder =
 	dynamic_cast<StringBuilder*>(demo);
-	
+
 	if(!demoBuilder){
 		//handle Error
 	}
 }
-			\end{lstlisting}
-			
-Hier kann nun geprüft werden, ob der \emph{cast} erfolgreich war, indem die Variable \emph{demoBuilder} auf \emph{null} geprüft wird und wenn dem der Fall ist, dann war der \emph{cast} nicht erfolgreich und es kann darauf reagiert werden.
+\end{lstlisting}
+
+Hier kann nun geprüft werden, ob der \emph{cast} erfolgreich war, indem die Variable
+\emph{demoBuilder} auf \emph{null} geprüft wird und wenn dem der Fall ist, dann war der
+\emph{cast} nicht erfolgreich und es kann darauf reagiert werden.
 \newline
 \newline
-Jedoch kommt es nun zu folgendem Problem: \emph{RTTI} fügt, aus Performance Sicht, unnötigen \emph{overhead} hinzu und die Überprüfung bei \emph{$dynamic\_cast$} findet zur Laufzeit statt. Wie schon in der Einleitung erwähnt, ist das \emph{zero overhead prinzip} eines der, wenn nicht sogar das wichtigste  Prinzip, welches hier klar verletzt wird. In dem Sinne, sollte, sofern Möglich, \emph{RTTI} ausgeschaltet werden und auf alternativen zurückgegriffen werden. Hier existiert kein Wissenschaftlicher Grundsatz, jedoch eine Möglichkeit zumindest \emph{$dynamic\_cast$} zu ersetzten, wäre die Verwendung einer \emph{Virtuellen Funktion}.
+Jedoch kommt es nun zu folgendem Problem: \emph{RTTI} fügt, aus Performance Sicht, unnötigen
+\emph{overhead} hinzu und die Überprüfung bei \emph{$dynamic\_cast$} findet zur Laufzeit statt.
+Wie schon in der Einleitung erwähnt, ist das \emph{zero overhead prinzip} eines der, wenn nicht
+sogar das wichtigste Prinzip, welches hier klar verletzt wird. In dem Sinne, sollte, sofern
+Möglich, \emph{RTTI} ausgeschaltet werden und auf alternativen zurückgegriffen werden. Hier
+existiert kein Wissenschaftlicher Grundsatz, jedoch eine Möglichkeit zumindest
+\emph{$dynamic\_cast$} zu ersetzten, wäre die Verwendung einer \emph{Virtuellen Funktion}.

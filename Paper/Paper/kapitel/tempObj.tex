@@ -23,13 +23,11 @@ gezeigt:
     caption={Implementation einer String klasse},
     label=lst:String-klasse,
     language=C++,frame=tlrb]
-  				
 class String {
 public:
 	String() = default;
 	String(const String& other) = default;
-	
-	//Normaler Konstruktor um ein Objekt zu erzeugen
+
 	String(const char* string) {
 		printf("Created\n");
 		m_Size = strlen(string);
@@ -37,9 +35,7 @@ public:
 		memcpy(m_Data, string, m_Size);
 		m_Data[m_Size] = 0;
 	}
-	
 	[...]
-    
 	~String() {
      printf("Deleted\n");
      delete m_Data;
@@ -48,7 +44,7 @@ protected:
     uint32_t m_Size;
     char* m_Data;
 };
-				
+
 void foo(const String& param); //<- Akzeptiert auch rvalues
 \end{lstlisting}
 

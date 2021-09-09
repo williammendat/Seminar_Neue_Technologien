@@ -5,7 +5,6 @@ Sobald ein Objekt ein anderes Objekt zugewiesen wird, findet ein Kopiervorgang s
   				caption={Demonstration einer \emph{flachen} Kopie},
   				label=lst:Flache-Kopie,
   				language=C++,frame=tlrb]
-  				
 int main(int argc, char** argv){
 	String stringA = "Test";
 	String stringB = stringA;
@@ -26,19 +25,14 @@ Wie klar zu erkennen ist, wurde durch die Veränderung von \emph{stringB} auch \
   				caption={String \emph{copy construtor}},
   				label=lst:KopierKonstruktor,
   				language=C++,frame=tlrb]
-  				
 class String {
 	[...]
-	
-	//Copy Construktor um ein Objekt zu kopieren
-    //Deep Copy muss Speicher neu erzeugen
     String(const String& other) {
         printf("Copied\n");
         m_Size = other.m_Size;
         m_Data = new char[m_Size + 1];
         memcpy(m_Data, other.m_Data, m_Size + 1);
     }
-    
 	[...]
 };
 			\end{lstlisting}

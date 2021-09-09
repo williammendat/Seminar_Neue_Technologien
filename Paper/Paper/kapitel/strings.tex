@@ -1,0 +1,126 @@
+\section{Strings}
+Heutzutage ist es schon fast undenkbar und unmöglich ein Programm ohne \emph{Strings} zu
+schreiben. Sie sind ein fester Bestandteil, bei so gut wie jeder höheren Programmiersprache,
+geworden. Viele Programmierer sehen diese deswegen als etwas sehr leichtgewichtiges. Dies kommt
+daher, dass Strings genauso behandelt werden wie primitive Datentypen, wie zum Beispiel \emph{int}
+oder \emph{char}. Jedoch wäre es Fatal anzunehmen, dass Operationen mit „Strings“ genauso effizient
+geschehen, wie bei den primitiven Datentypen. Dies zeigt auch das folgende Zitat:
+
+\begin{zitat}
+    Strings are convenient because they automatically grow as needed to hold their con‐ tents. By
+    contrast, C library functions (strcat(), strcpy(), etc.) act on fixed-size character arrays.
+    To implement this flexibility, strings are allocated dynamically. Dynamic allocation is
+    expensive compared to most other C++ features, so no matter what, strings are going to show
+    up as optimization hot spots \cite{OptimizedC++}
+\end{zitat}
+
+\subsection{Probleme mit Strings}
+\emph{Strings} ziehen viele Probleme mit sich, jedoch sind die zwei Größten Probleme die
+\emph{Strings} mit sich ziehen sind folgende:
+
+\begin{itemize}
+    \item \emph{Strings} werden auf dem \emph{Heap} gespeichert, was, wie im Kapitel
+    \emph{Speicher Management} gezeigt ein sehr Teurer Prozess ist.
+    \item Dadurch dass \emph{Strings} wie primitive Datentypen behandelt werden, verursachen
+    \emph{Strings} viele Kopiervorgänge, was, wie im Kapitel \emph{Kopieren von Objekten} sehr
+    suboptimal ist.
+\end{itemize}
+
+Um zu Demonstrieren, wie Problematisch diese zwei Punkte tatsächlich sind, soll die \emph{String}
+klasse, die im laufe dieses Papers vorgestellt wurde um die \emph{+} und \emph{=} Operatoren
+erweitert werden, wie im folgenden gezeigt:
+
+\begin{lstlisting}[
+    caption={String-Operatoren},
+    label=lst:StringOperatoren,
+    language=C++,frame=tlrb]
+	String& operator=(const String& other) noexcept {
+		printf("Copied via =\n");
+		if (this == &other)
+			return *this;
+
+		delete[] m_Data;
+		m_Size = other.m_Size;
+		m_Data = new char[m_Size + 1];
+		memcpy(m_Data, other.m_Data, m_Size + 1);
+		return *this;
+	}
+	String& operator+(const String& other) noexcept {
+		this->operator+(other.m_Data);
+	}
+
+	String& operator+(const char* other) noexcept {
+		printf("Copied via +\n");
+		String temp = *this;
+
+		delete[] m_Data;
+		int other_Size = strlen(other);
+		m_Size = temp.m_Size + other_Size;
+		m_Data = new char[m_Size + 1];
+
+		int i = 0;
+		for (int j = 0; j < temp.m_Size; ++j, ++i)
+			m_Data[i] = temp.m_Data[j];
+		for (int j = 0; j < other_Size; ++j, ++i)
+			m_Data[i] = other[j];
+
+		m_Data[m_Size] = 0;
+		return *this;
+	}
+\end{lstlisting}
+
+Damit die beiden Operatoren so funktionieren, wie sie sollen, muss der Speicher für \emph{m\_Data}
+mittels \emph{new} vergrößert werden. Darauf hin müssen die Daten, entweder mit Standard Funktionen
+wie \emph{memcpy} oder mit simplen \emph{for-schleifen}, kopiert werden.
+\newline
+\newline
+Da nun die beiden Operatoren zur Verfügung stehen, kann nun mit der folgenden Sequenz, die
+Problematik zur Schau gestellt werden. Hierfür wird außerdem noch der \emph{new} Operator
+überschrieben um später zu überprüfen, wie oft die Funktion aufgerufen wurde.
+
+\begin{lstlisting}[
+    caption={String-Operationen},
+    label=lst:StringOperationen,
+    language=C++,frame=tlrb]
+static uint64_t Allocations = 0;
+
+void* operator new(size_t size) {
+	++Allocations;
+	return malloc(size);
+}
+
+void PrintString(String string) {
+	std::cout << string << std::endl;
+}
+
+int main(int argc, char** argv)
+{
+	String demo = String("Hello") + " World" + "!";
+	PrintString(demo);
+	std::cout << "New called " << Allocations << " times" << std::endl;
+	std::cin.get();
+}
+\end{lstlisting}
+Wird die Sequenz betrachte, dann ist dies nichts Weltbewegendes, jedoch resultiert diese Sequenz
+schließlich in diesen Output:
+
+\begin{lstlisting}[
+    caption={Ausgabe des String-Programms},
+    label=lst:ArrayAdressen,
+    language=C++]
+Created
+Copied via +
+Copied
+Copied via +
+Copied
+Copied
+Copied
+Hello World!
+New called 7 times
+\end{lstlisting}
+
+Tatsächlich wurde für dieses doch sehr simple Programm Sieben mal der \emph{new} Operator
+aufgerufen. Eine Optimierungsansatz für dieses Problem, sind \emph{Move Semantiken}, die im
+späteren Verlauf dieses Papers noch besprochen werden, jedoch ist dieses Verhalten aus Sicht der
+Performance inakzeptabel und der Einsatz von \emph{Strings} sollte auf ein nötigstes beschränkt
+werden.
