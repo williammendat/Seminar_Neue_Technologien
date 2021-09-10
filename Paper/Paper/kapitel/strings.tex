@@ -3,11 +3,12 @@ Heutzutage ist es schon fast undenkbar und unmöglich ein Programm ohne \emph{St
 schreiben. Sie sind ein fester Bestandteil, bei so gut wie jeder höheren Programmiersprache,
 geworden. Viele Programmierer sehen diese deswegen als etwas sehr leichtgewichtiges. Dies kommt
 daher, dass Strings genauso behandelt werden wie primitive Datentypen, wie zum Beispiel \emph{int}
-oder \emph{char}. Jedoch wäre es Fatal anzunehmen, dass Operationen mit „Strings“ genauso effizient
+oder \emph{char}. Jedoch wäre es Fatal anzunehmen, dass Operationen mit \emph{Strings} genauso
+effizient
 geschehen, wie bei den primitiven Datentypen. Dies zeigt auch das folgende Zitat:
 
 \begin{zitat}
-    Strings are convenient because they automatically grow as needed to hold their con‐ tents. By
+    Strings are convenient because they automatically grow as needed to hold their contents. By
     contrast, C library functions (strcat(), strcpy(), etc.) act on fixed-size character arrays.
     To implement this flexibility, strings are allocated dynamically. Dynamic allocation is
     expensive compared to most other C++ features, so no matter what, strings are going to show
@@ -45,6 +46,7 @@ erweitert werden, wie im folgenden gezeigt:
 		memcpy(m_Data, other.m_Data, m_Size + 1);
 		return *this;
 	}
+
 	String& operator+(const String& other) noexcept {
 		this->operator+(other.m_Data);
 	}
