@@ -16,8 +16,8 @@ wieder verworfen zu werden. Solch ein Verhalten frisst dann unnötigerweise Perf
 \newline
 \newline
 Um ein solches Verhalten darzustellen, wird im folgenden eine Simple eigen Implementation der
-String klasse, sowie eine Funktion \emph{foo}, die eine \emph{const} Referenz übergeben bekommt
-gezeigt:
+\emph{String} klasse, sowie die Klasse \emph{Person}, die eine \emph{const} Referenz übergeben im
+Konstruktor übergeben bekommt gezeigt:
 
 \begin{lstlisting}[
     caption={Implementation einer String klasse},
@@ -25,9 +25,6 @@ gezeigt:
     language=C++,frame=tlrb]
 class String {
 public:
-	String() = default;
-	String(const String& other) = default;
-
 	String(const char* string) {
 		printf("Created\n");
 		m_Size = strlen(string);
@@ -45,9 +42,17 @@ protected:
     char* m_Data;
 };
 
-void foo(const String& param); //<- Akzeptiert auch rvalues
+class Person{
+public:
+	//Konstructor akzeptiert auch rvalues
+	Person(const String& name) : m_Name(name) { }
+private:
+	String m_Name;
+}
 \end{lstlisting}
 
-Wenn \emph{foo} nun mit einem \emph{rvalue} aufgerufen wird, dann muss der Compiler eigenständig
-ein Temporäres Objekt erzeugen. Um so ein ungewolltest Verhalten zu vermeiden, wurde das
-\emph{explicit} Keyword eingeführt.
+Wenn nun eine Instance von Person mit einem \emph{rvalue} erstellt wird, dann wird zuerst ein
+Objekt vom Typ \emph{String} erzeugt, nur um dann die Daten an \emph{m\_Name} zu kopieren. Im
+späteren Verlauf dieses Papers wird noch auf das Kopieren von Objekten eingegangen. Jedoch kann
+für den Moment gesagt werden, dass das Verhalten, ein Objekt lediglich zu erzeugen nur um die
+Daten dann weiterzureichen sehr zu lasten der Performance gehen.
