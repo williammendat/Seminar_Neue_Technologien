@@ -19,14 +19,9 @@ void* operator new(size_t size) {
 	return malloc(size);
 }
 
-void PrintString(String string) {
-	std::cout << string << std::endl;
-}
-
 int main(int argc, char** argv)
 {
-	String demo = String("Hello") + " World!";
-	PrintString(demo);
+	String demo = std::move(String("Hello") + " World" + "!");
 	std::cout << "New called " << Allocations << " times" << std::endl;
 	std::cin.get();
 }

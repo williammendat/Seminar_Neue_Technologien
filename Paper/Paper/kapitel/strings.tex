@@ -91,14 +91,9 @@ void* operator new(size_t size) {
 	return malloc(size);
 }
 
-void PrintString(String string) {
-	std::cout << string << std::endl;
-}
-
 int main(int argc, char** argv)
 {
 	String demo = String("Hello") + " World" + "!";
-	PrintString(demo);
 	std::cout << "New called " << Allocations << " times" << std::endl;
 	std::cin.get();
 }
@@ -108,7 +103,7 @@ schließlich in diesen Output:
 
 \begin{lstlisting}[
     caption={Ausgabe des String-Programms},
-    label=lst:ArrayAdressen,
+    label=lst:StringProgramm,
     language=C++]
 Created
 Copied via +
@@ -116,12 +111,10 @@ Copied
 Copied via +
 Copied
 Copied
-Copied
-Hello World!
-New called 7 times
+New called 6 times
 \end{lstlisting}
 
-Tatsächlich wurde für dieses doch sehr simple Programm Sieben mal der \emph{new} Operator
+Tatsächlich wurde für dieses doch sehr simple Programm Sechs mal der \emph{new} Operator
 aufgerufen. Eine Optimierungsansatz für dieses Problem, sind \emph{Move Semantiken}, die im
 späteren Verlauf dieses Papers noch besprochen werden, jedoch ist dieses Verhalten aus Sicht der
 Performance inakzeptabel und der Einsatz von \emph{Strings} sollte auf ein nötigstes beschränkt

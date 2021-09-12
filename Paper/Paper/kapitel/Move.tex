@@ -1,0 +1,69 @@
+\section{Move-Semantiken}
+Wie im Kapitel \emph{Temporäre Objekte} schon gezeigt wurde, führen Temporäre Objekte unnötigerweise
+dazu, das Objekte nur erzeugt werden, um dann die Daten an einer anderen Stelle weiterzugeben.
+Dieses Verhalten, führt bei einem Komplexerem Objekt, wie zum Beispiel einem String dazu, dass
+Speicher auf dem \emph{Heap} bereitgestellt werden und somit zur lasten der Performance geht.
+\newline
+\newline
+Mit der Veröffentlichung von C++11 wurden \emph{Move-Semantiken} eingeführt, die es erlauben, dass
+die Daten von einer Variable, von einem Objekt gestohlen werden können. Anstatt das Objekt
+erst erzeugt wird, um dann die Daten zum Ziel zu kopieren, wird das Objekt nur noch erzeugt und
+die \emph{Pointers} werden umgestellt \cite{VisualisingC++}[vgl.]. Um von den Features der
+\emph{Move-Semantiken} Gebrauch machen zu können, muss das Objekt einen \emph{Move-Constructor}
+bereitstellen. Dieser \emph{Move-Constructor} erwartet als Übergabe Parameter eine sogenannte
+\emph{rvalue-reference}, aus welche die Daten dann letztendlich gestohlen werden können. Eine
+\emph{rvalue-reference} kann, wie der Name schon sagt eine \emph{rvalue} sein oder auch ein Objekt
+welches schon vorher erzeugt wurde, jedoch muss dieses Objekt, dann mittels \emph{std::move()}
+gekennzeichnet werden.
+\newline
+\newline
+Um zu Demonstrieren wie ein solcher \emph{Move-Constructor} aussehen könnte und wie später damit
+hantiert werden kann, soll zunächst die eigen-implementierte \emph{String} klasse mit einem solchen
+\emph{Move-Costructor} erweitert werden:
+
+\begin{lstlisting}[
+    caption={String \emph{move construtor}},
+    label=lst:MoveKonstruktor,
+    language=C++,frame=tlrb]
+class String {
+	[...]
+   String(String&& other) {
+        printf("Moved\n");
+        m_Size = other.m_Size;
+        m_Data = other.m_Data;
+        other.m_Data = nullptr;
+        other.m_Size = 0;
+    }
+	[...]
+};
+\end{lstlisting}
+
+Wie zu sehen ist, wird eine \emph{rvalue-reference} mittels \emph{\&\&} gekennzeichnet. Zudem ist
+auch zu erkennen, dass es hier nicht von Nöten ist, mittels \emph{new} Speicher auf dem \emph{Heap}
+anzulegen. Lediglich der \emph{Pointer} wird umorientiert. Wichtig hierbei ist, dass der
+\emph{Pointer} von \emph{other.m\_Data} auf nullptr gesetzt wird, sonst entsteht die
+Situation, dass beim Löschen von der \emph{rvalue-reference} die angelegten Daten auf dem
+\emph{Heap} auch gelöscht werden.
+\newline
+\newline
+Im Kapitel \emph{Strings} wurde ein Beispiel (Listing \ref{lst:StringOperationen}) vorgeführt,
+welches in diesem Kapitel auch wieder zum Einsatz kommen soll. Nur dieses mal unter der
+Verwendung von \emph{Move-Semantiken}. Durch den \emph{Move-Construtor} und das kennzeichnen
+der Objekte als \emph{movable} Objekte, resultiert das gleiche Programm in folgendem Output:
+
+\begin{lstlisting}[
+    caption={Ausgabe des String-Programms mit Move-Semantiken},
+    label=lst:StringProgrammMitMove,
+    language=C++]
+Created
+Copied via +
+Moved
+Copied via +
+Moved
+Moved
+New called 3 times
+\end{lstlisting}
+
+Lediglich durch die Verwendung von diesem Feature hat sich die Zahl an \emph{new} Aufrufen halbiert.
+Wird dabei ein großes Projekt betrachtet, mit mehreren 1000 solcher Operationen, kann alleine
+dadurch viel Performance gewonnen werden.

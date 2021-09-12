@@ -72,7 +72,7 @@ public:
 
 	String& operator+(const char* other) noexcept {
 		printf("Copied via +\n");
-		String temp = *this;
+		String temp = std::move(*this);
 
 		delete[] m_Data;
 		int other_Size = strlen(other);
