@@ -1,5 +1,6 @@
-\section{Move-Semantiken}
-Wie im Kapitel \emph{Temporäre Objekte} schon gezeigt wurde, führen Temporäre Objekte unnötigerweise
+\section{Move-Semantiken}\label{sec:move}
+Wie im Kapitel \emph{\nameref{sec:tempobj}} schon gezeigt wurde, führen Temporäre Objekte
+unnötigerweise
 dazu, das Objekte nur erzeugt werden, um dann die Daten an einer anderen Stelle weiterzugeben.
 Dieses Verhalten, führt bei einem Komplexerem Objekt, wie zum Beispiel einem String dazu, dass
 Speicher auf dem \emph{Heap} bereitgestellt werden und somit zur lasten der Performance geht.
@@ -46,10 +47,11 @@ Situation, dass beim Löschen von der \emph{rvalue-reference} die angelegten Dat
 \emph{Heap} auch gelöscht werden.
 \newline
 \newline
-Im Kapitel \emph{Strings} wurde ein Beispiel (Listing \ref{lst:StringOperationen}) vorgeführt,
-welches in diesem Kapitel auch wieder zum Einsatz kommen soll. Nur dieses mal unter der
-Verwendung von \emph{Move-Semantiken}. Durch den \emph{Move-Construtor} und das kennzeichnen
-der Objekte als \emph{movable} Objekte, resultiert das gleiche Programm in folgendem Output:
+Im Kapitel \emph{\nameref{sec:strings}} wurde ein Beispiel (Listing \ref{lst:StringOperationen}
+\emph{\nameref{lst:StringOperationen}}) vorgeführt, welches in diesem Kapitel auch wieder zum
+Einsatz kommen soll. Nur dieses mal unter der Verwendung von \emph{Move-Semantiken}. Durch den
+\emph{Move-Construtor} und das kennzeichnen der Objekte als \emph{movable} Objekte, resultiert
+das gleiche Programm in folgendem Output:
 
 \begin{lstlisting}[
     caption={Ausgabe des String-Programms mit Move-Semantiken},

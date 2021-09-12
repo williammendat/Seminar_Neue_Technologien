@@ -1,4 +1,4 @@
-\section{Strings}
+\section{Strings}\label{sec:strings}
 Heutzutage ist es schon fast undenkbar und unmöglich ein Programm ohne \emph{Strings} zu
 schreiben. Sie sind ein fester Bestandteil, bei so gut wie jeder höheren Programmiersprache,
 geworden. Viele Programmierer sehen diese deswegen als etwas sehr leichtgewichtiges. Dies kommt
@@ -15,15 +15,15 @@ geschehen, wie bei den primitiven Datentypen. Dies zeigt auch das folgende Zitat
     up as optimization hot spots \cite{OptimizedC++}
 \end{zitat}
 
-\subsection{Probleme mit Strings}
+\subsection{Probleme mit Strings}\label{subsec:stringprobleme}
 \emph{Strings} ziehen viele Probleme mit sich, jedoch sind die zwei Größten Probleme die
 \emph{Strings} mit sich ziehen sind folgende:
 
 \begin{itemize}
     \item \emph{Strings} werden auf dem \emph{Heap} gespeichert, was, wie im Kapitel
-    \emph{Speicher Management} gezeigt ein sehr Teurer Prozess ist.
+    \emph{\nameref{sec:speicherman}} gezeigt ein sehr Teurer Prozess ist.
     \item Dadurch dass \emph{Strings} wie primitive Datentypen behandelt werden, verursachen
-    \emph{Strings} viele Kopiervorgänge, was, wie im Kapitel \emph{Kopieren von Objekten} sehr
+    \emph{Strings} viele Kopiervorgänge, was, wie im Kapitel \emph{\nameref{sec:kopieren}} sehr
     suboptimal ist.
 \end{itemize}
 
@@ -115,7 +115,67 @@ New called 6 times
 \end{lstlisting}
 
 Tatsächlich wurde für dieses doch sehr simple Programm Sechs mal der \emph{new} Operator
-aufgerufen. Eine Optimierungsansatz für dieses Problem, sind \emph{Move Semantiken}, die im
+aufgerufen. Eine Optimierungsansatz für dieses Problem, sind \emph{\nameref{sec:move}}, die im
 späteren Verlauf dieses Papers noch besprochen werden, jedoch ist dieses Verhalten aus Sicht der
 Performance inakzeptabel und der Einsatz von \emph{Strings} sollte auf ein nötigstes beschränkt
 werden.
+
+\subsection{String Optimierungen}
+Wie im Unterkapitel \emph{\nameref{subsec:stringprobleme}} zu sehen war, bringen \emph{Strings}
+einige Probleme hinsichtlich der Performance mit sich. Jedoch ist die Tatsache, dass
+\emph{Strings} Performance Probleme mit sich ziehen kein geheimnis und weit bekannt. Deswegen
+wird städig versucht \emph{Strings} performanter zu machen. Im folgenden werden aufgrund dessen
+einige \emph{String} Optimierungen betrachtet, die im laufe der Jahre in den C++ standart
+hinzugefügt wurden.
+\newline
+\subsubsection{Small String Optimization}
+Natürlich ist die \emph{std::string} klasse aus dem C++ standart wesentlich Komplexer als die
+eigen Implementierte \emph{String} klasse aus diesem Paper und bietet auch mehr Features. So auch
+wie das Feature names \emph{Small String Optimization}, welche mit \emph{C++11} in den C++
+standart kam. Wie in diesem Kapitel zu sehen war, müssen \emph{Strings} dynamisch auf dem
+\emph{Heap} gespeichert werden. Durch \emph{Small String Optimization} werden \emph{Strings}, die
+eine bestimmte Anzahl an Charakter nicht überschreiten, um genau zu sein, nicht größer als \emph{15}
+Charakter, nicht auf dem \emph{Heap} sondern auf dem \emph{Stack} gespeichert. Dies ist durch die
+folgende Demonstration zu erkennen:
+
+\begin{lstlisting}[
+	caption={Small String Optimization},
+	label=lst:SmallString,
+	language=C++,frame=tlrb]
+int main(int argc, char** argv)
+{
+	std::string string1 = "Hallo";
+	std::cout << string1 << ": New called " << Allocations << " times" << std::endl;
+
+	Allocations = 0;
+
+	std::string string2 = "Hallo das ist eine Demo";
+	std::cout << string2 << ": New called " << Allocations << " times" << std::endl;
+
+	//Output
+	//Hallo: New called 0 times
+	//Hallo das ist eine Demo: New called 1 times
+}
+\end{lstlisting}
+\newline
+\subsubsection{std::string\_view}
+Mit \emph{C++17} wurde \emph{std::string\_view} in den C++ standart hinzugefügt und ermöglicht es
+Programmierern, eine \emph{view} in einem \emph{String} zu bekommen. Eine \emph{view} sorgt
+dafür, dass in einem schon vorhandenen string reingeschaut werden kann. Wird nun das Beispiel
+betrachte, das ein \emph{Substring} von einem \emph{String} benötigt wird, dann muss für diesen
+\emph{Substring} ein eigener \emph{Buffer} auf dem \emph{Heap} erzeugt werden, um dann den Teil
+zu kopieren. Mit hilfe von \emph{std::string\_view} ist es nicht nötig, einen seperaten
+\emph{Buffer} zu erzeugen, sondern es wird lediglich auf die Adresse des \emph{Strings} gezeigt
+und eine Anzahl an \emph{Bytes} übergeben, um den Teil des \emph{Substrings} zu definieren.
+\newline
+\subsubsection{Reserve}
+Die \emph{Reserve} funktion ist keine eigenheit von \emph{std::string}, jedoch kann diese
+Funktion genau so gut auch für \emph{Strings} benutzt werden. Mit \emph{Reserve} kann Speicher
+auf dem \emph{Heap} reserviert werden, das bedeutet, dass wenn die Anzahl der Bytes bekannt ist,
+ist es nicht von nöten jedesmal nach einer Operation, mehr speicher anzufordern, sondern einmal
+diese \emph{Bytes} zu reservieren und die Daten dann einfach reinzuschreiben. Angenommen, es
+seien in einer \emph{Liste} beliebig viele \emph{Strings} vorhanden, und diese \emph{Strings}
+sollen in  einem \emph{String} zusammen gefügt werden. Dann ist es tatsächlich Performanter,
+zuerst die gesamten \emph{Bytes} zu ermitteln, die Anzahl an \emph{Bytes} für den \emph{String} zu
+reservieren und am ende erst die einzelnen \emph{Strings} zu vereinen. Im folgenden wird ein
+Diagramm gezeigt, welches den Unterschied mit und ohne \emph{Reserve} zeigt:

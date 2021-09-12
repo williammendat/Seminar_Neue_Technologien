@@ -87,3 +87,53 @@ void doBenchmark(uint64_t times) {
 	std::cout << "Return Code " << times << " times:";
 	doBenchmarkReturnCode(times);
 }
+
+void doStingReserverBenchmark(uint64_t& Allocations)
+{
+	std::vector<uint64_t> times = { 100000, 200000, 300000, 400000, 500000, 600000, 700000 };
+
+	for (uint32_t i = 0; i < times.size(); ++i)
+	{
+		//init von Strings
+		std::vector<std::string> strings;
+
+		Allocations = 0;
+
+		for (uint64_t j = 0; j < times[i]; j++)
+			strings.push_back("String");
+
+		{
+			std::cout << "String without reserver with " << times[i] << " times: ";
+			std::string* string = new std::string();
+			Timer timer;
+
+			for (uint64_t j = 0; j < times[i]; j++)
+				string->append(strings.at(j));
+			delete string;
+		}
+
+		std::cout << "New called: " << Allocations << " times" << std::endl;
+		Allocations = 0;
+		{
+			std::cout << "String with reserve with " << times[i] << " times: ";
+			std::string* string = new std::string();
+			uint64_t bytes = 0;
+			Timer timer;
+
+			for (uint64_t j = 0; j < times[i]; j++)
+				bytes += strings.at(j).size();
+
+			string->reserve(bytes + 1);
+
+			for (uint64_t j = 0; j < times[i]; j++)
+				string->append(strings.at(j));
+
+			delete string;
+		}
+
+		std::cout << "New called: " << Allocations << " times" << std::endl;
+
+		std::cout << "--------------------------------------------------------" << std::endl;
+
+	}
+}

@@ -1,11 +1,11 @@
-\section{Fehlerbehandlungen}
+\section{Fehlerbehandlungen}\label{sec:fehlerbehandlung}
 Fehlerbehandlungen stehen der Performance eines Programms ständig im Weg, dies ist auch Logisch
 zu erklären, da abgefangen und überprüft werden muss, ob es zu einem Fehler kam. Dafür muss
 Programmcode hinzugefügt werden, der nicht essentiell für den eigentlichen Ablauf des Programms
 ist. Dennoch kommt der Programmierer nicht drum herum Fehlerbehandlungen in seinem System zu
 integrieren, da es immer zu unvorhergesehenen Fehlern kommen kann.
 
-\subsection{Exceptions}
+\subsection{Exceptions}\label{subsec:exceptions}
 Um einen Fehler zu behandeln, kann der Programmierer einen Status Code zurückgeben und diesen
 Überprüfen oder eine \emph{Exception} werfen und die Funktion die Potentiell eine
 \emph{Exception} werfen könnte mit einem \emph{Try-Catch} Block umringen. Die Vorteile von
@@ -29,7 +29,7 @@ Performance Verlust entsteht, wenn keine \emph{Exceptions} geworfen wird, nicht 
 Grund für die Umstrittenheit ist, dass \emph{Exceptions} gegen das \emph{zero-overhead prinzip}
 verstoßen. Auch bei der Betrachtung der Performance eines Programms zeigen sich \emph{Exceptions}
 als sehr Problematisch, da diese Dynamisch zur Laufzeit, zum Beispiel auf dem \emph{Heap}
-erstellt werden müssen, was wie im Kapitel Speicher Management gezeigt, schon sehr teuer ist, und
+erstellt werden müssen, was wie im Kapitel \emph{\nameref{sec:speicherman}} gezeigt, schon sehr teuer ist, und
 anschließend noch der Dynamische Type der \emph{Exceptions} herausgefunden werden muss, was in
 einem \emph{$dynamic\_cast$} resultiert. Ein weiteres Problem, welches mit der Verwendung von
 \emph{Exceptions} kommt, ist dass nicht gesagt werden kann, wie lange es braucht bis eine
@@ -39,7 +39,7 @@ unbestimmbare menge an Speicher gebraucht wird.\cite{HandsOn}
 
 \subsection{Expected}
 \emph{Exceptions} sind zwar sehr langsam, jedoch bringen sie wie vorher im Unterkapitel
-\emph{Exceptions} erwähnt auch nennenswerte Vorteile gegenüber einfachen Status Codes. Deswegen
+\emph{\nameref{subsec:exceptions}} erwähnt auch nennenswerte Vorteile gegenüber einfachen Status Codes. Deswegen
 kann auf die Alternative von \emph{Expected} zurückgegriffen werden, welches einen Kompromiss
 zwischen Status Codes und \emph{Exceptions} darstellt. \emph{Expected} wird durch
 \emph{Templateklasse} repräsentiert, die Beispielhaft als Pseudocode, wie folgt aussehen könnte:

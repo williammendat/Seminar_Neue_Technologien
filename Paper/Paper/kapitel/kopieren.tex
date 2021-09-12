@@ -1,10 +1,17 @@
-\section{Kopieren von Objekten}
-Sobald ein Objekt ein anderes Objekt zugewiesen wird, findet ein Kopiervorgang statt. Dabei existieren zwei arten von Kopiermechanismen, einmal die \emph{flache} Kopie und die \emph{tiefe} Kopie. Eine \emph{flache} Kopie ist eine Pseudo-Kopie, das bedeutet, dass hier nicht wirklich Kopiert wird, sondern nur auf die Adresse des Objektes verwiesen wird, währenddessen ist eine \emph{tiefe}, eine echte Kopie, bei der die Daten an eine neue Adresse geschrieben werden. Dies ist insofern relevant, da bei dem Kopieren von einem Objekt der \emph{copy constructor} aufgerufen wird, und dieser Standardmäßig eine \emph{flache} Kopie durchführt. Dieses Verhalten soll im folgenden mit Hilfe der String klasse dargestellt werden.
+\section{Kopieren von Objekten}\label{sec:kopieren}
+Sobald ein Objekt ein anderes Objekt zugewiesen wird, findet ein Kopiervorgang statt. Dabei
+existieren zwei arten von Kopiermechanismen, einmal die \emph{flache} Kopie und die \emph{tiefe}
+Kopie. Eine \emph{flache} Kopie ist eine Pseudo-Kopie, das bedeutet, dass hier nicht wirklich
+Kopiert wird, sondern nur auf die Adresse des Objektes verwiesen wird, währenddessen ist eine
+\emph{tiefe}, eine echte Kopie, bei der die Daten an eine neue Adresse geschrieben werden. Dies
+ist insofern relevant, da bei dem Kopieren von einem Objekt der \emph{copy constructor}
+aufgerufen wird, und dieser Standardmäßig eine \emph{flache} Kopie durchführt. Dieses Verhalten
+soll im folgenden mit Hilfe der String klasse dargestellt werden.
 
 \begin{lstlisting}[
-  				caption={Demonstration einer \emph{flachen} Kopie},
-  				label=lst:Flache-Kopie,
-  				language=C++,frame=tlrb]
+    caption={Demonstration einer \emph{flachen} Kopie},
+    label=lst:Flache-Kopie,
+    language=C++,frame=tlrb]
 int main(int argc, char** argv){
 	String stringA = "Test";
 	String stringB = stringA;
@@ -16,15 +23,21 @@ int main(int argc, char** argv){
 
 //Output:
 //StringA: Tast
-//StringB: Tast		
-			\end{lstlisting}
-			
-Wie klar zu erkennen ist, wurde durch die Veränderung von \emph{stringB} auch \emph{stringA} verändert. Dieses verhalten ist jedoch sehr Problematisch, da nun zwei Objekte existieren, die auf die gleiche Adresse verweisen und das Programm abstürzt beim versuch beide Objekte zu löschen. Dies Passiert, weil versucht wird, Speicher freizugeben, der schon freigegeben wurde. Um dieses unerwünschte verhalten zu umgehen, ist dem Programmierer die Möglichkeit gegeben, eine eigene Definition für den \emph{copy constructor} zu schreiben. Für die eigen-implementierte String klasse könnte der \emph{copy constructor} wie folgt aussehen:
+//StringB: Tast
+\end{lstlisting}
+
+Wie klar zu erkennen ist, wurde durch die Veränderung von \emph{stringB} auch \emph{stringA}
+verändert. Dieses verhalten ist jedoch sehr Problematisch, da nun zwei Objekte existieren, die
+auf die gleiche Adresse verweisen und das Programm abstürzt beim versuch beide Objekte zu löschen
+. Dies Passiert, weil versucht wird, Speicher freizugeben, der schon freigegeben wurde. Um dieses
+unerwünschte verhalten zu umgehen, ist dem Programmierer die Möglichkeit gegeben, eine eigene
+Definition für den \emph{copy constructor} zu schreiben. Für die eigen-implementierte String
+klasse könnte der \emph{copy constructor} wie folgt aussehen:
 
 \begin{lstlisting}[
-  				caption={String \emph{copy construtor}},
-  				label=lst:KopierKonstruktor,
-  				language=C++,frame=tlrb]
+    caption={String \emph{copy construtor}},
+    label=lst:KopierKonstruktor,
+    language=C++,frame=tlrb]
 class String {
 	[...]
     String(const String& other) {
@@ -35,9 +48,16 @@ class String {
     }
 	[...]
 };
-			\end{lstlisting}
-			
-Damit wurde erreicht, dass die beiden Objekte nun komplett voneinander unabhängig sind und das Programm nicht abstürzt wenn beide Objekte gelöscht werden.
+\end{lstlisting}
+
+Damit wurde erreicht, dass die beiden Objekte nun komplett voneinander unabhängig sind und das
+Programm nicht abstürzt wenn beide Objekte gelöscht werden.
 \newline
 \newline
-Jedoch ist gleichzeitig auch zu sehen, dass beim Kopieren neuer Speicher auf dem \emph{Heap} angelegt werden muss, was wie im Kapitel \emph{Speicher Management} sehr ineffizient ist. Das bedeutet, dass jedes mal, wenn das String Objekt kopiert wird zum Beispiel beim Übergeben an eine Funktion per \emph{Value}, dieser Vorgang unnötigerweise Performance in Anspruch nimmt. Im späteren Verlauf dieser Arbeit wird noch ein C++ Feature gezeigt, welches eingesetzt werden kann um unnötige Kopien zu vermeiden, jedoch für den Augenblick sollte gemerkt werden, dass ein Objekt jedes mal per \emph{Referenz} an eine Funktion übergeben werden \cite{ChernoCopy}[vgl.]. 
+Jedoch ist gleichzeitig auch zu sehen, dass beim Kopieren neuer Speicher auf dem \emph{Heap}
+angelegt werden muss, was wie im Kapitel \emph{\nameref{sec:speicherman}} sehr ineffizient ist. Das
+bedeutet, dass jedes mal, wenn das String Objekt kopiert wird zum Beispiel beim Übergeben an eine
+Funktion per \emph{Value}, dieser Vorgang unnötigerweise Performance in Anspruch nimmt. Im
+späteren Verlauf dieser Arbeit wird noch ein C++ Feature gezeigt, welches eingesetzt werden kann
+um unnötige Kopien zu vermeiden, jedoch für den Augenblick sollte gemerkt werden, dass ein Objekt
+jedes mal per \emph{Referenz} an eine Funktion übergeben werden \cite{ChernoCopy}[vgl.].
