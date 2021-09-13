@@ -1,0 +1,26 @@
+\section{Constant expressions}\label{sec:constexpr}
+Wie im letzten Kapitel \emph{\nameref{sec:templates}} zu sehen war, ist es möglich Berechnungen
+zur Compilezeit durchzuführen, jedoch machen es die schlechte Lesbarkeit und die unverständlichen
+Fehlermeldungen ziemlich schwer, mit \emph{Templates} zu Hantieren. Aufgrund von dieser Tatsache,
+kamen mit der Veröffentlichung von \emph{C++11} auch die \emph{constexpr} Funktionen. Eine solche
+Funktion beginnt mit dem Keywort \emph{constexpr} und könnte wie folgt aussehen
+\cite{HandsOn}[vgl.]:
+
+\begin{lstlisting}[
+    caption={Summe mittels \emph{constexpr}},
+    label=lst:SummeConstexpr,
+    language=C++,frame=tlrb]
+constexpr uint32_t Sum(uint16_t value) {
+	return value <= 1 ? 1 : (value * Sum(value - 1));
+}
+
+int main(int argc, char** argv)
+{
+	std::cout << Sum(5) << std::endl;
+	std::cin.get();
+}
+\end{lstlisting}
+
+So konnte erreicht werden, dass der gleiche Effekt wie, in Listing \ref{lst:SummeTemplate} \nameref{lst:SummeTemplate},
+geschaffen wurde und das sehr leicht und leserlich. \emph{Constant expression} ist ein sehr
+mächtiges Feature von C++ und sollte so oft wie nur möglich verwendet werden.

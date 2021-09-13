@@ -33,15 +33,10 @@ public:
 		m_Data[m_Size] = 0;
 	}
 	[...]
-	~String() {
-     printf("Deleted\n");
-     delete m_Data;
-    }
 protected:
     uint32_t m_Size;
     char* m_Data;
 };
-
 class Person{
 public:
 	//Konstructor akzeptiert auch rvalues

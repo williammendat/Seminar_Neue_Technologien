@@ -1,0 +1,44 @@
+\section{Templates}\label{sec:templates}
+\begin{zitat}
+    C++ templates allow functions and classes to operate on generic types to increase code
+    reusability without sacrificing performance. \cite{TemplatesVorteil}
+\end{zitat}
+\emph{Templates} bieten einige Vorteile wie auch im Zitat am anfang gezeigt wurde, jedoch ist der
+fakt, dass \emph{Templates} für generische typen benutzt werden können, nicht das einzig
+besondere an denen.
+\newline
+\newline
+Da \emph{Templates} zur Compilezeit und nicht zur Laufzeit erzeugt werden, können diese dafür
+gebraucht werden um berechnungen zur Compilezeit durchzuführen \cite{HandsOn}[vgl.]. So kann zum
+Beispiel die Summe einer konstanten Zahl zur Compilzeit wie folgt berechnet werden:
+\begin{lstlisting}[
+    caption={Summe mittels \emph{Templates}},
+    label=lst:SummeTemplate,
+    language=C++,frame=tlrb]
+template <unsigned int Base>
+struct Sum
+{
+	static const unsigned long long result = Base * Faculty<Base - 1>::result;
+};
+
+template<>
+struct Sum<1>
+{
+	static const unsigned long long result = 1;
+};
+
+int main(int argc, char** argv)
+{
+	std::cout << Sum<5>::result << std::endl;
+	std::cin.get();
+}
+\end{lstlisting}
+
+Wichtig dabei ist allerdings, dass die Variable \emph{result} als \emph{static} Variable
+declariert wird, sonst kann diese Berechnung so nicht funktionieren.
+\newline
+\newline
+Obwohl \emph{Templates} augenscheinlich Vorteile bieten, werden diese oft gemieden und in manchen
+Projekten sogar komplett gebannt. Dies kommt daher, da \emph{Templates}, wenn es komplexer wird,
+sehr schwer zu verstehen sind und wenn es zu einem Fehler kommt meist sehr schwer ist, diesen zu
+finden.

@@ -30,7 +30,7 @@ geschehen, wie bei den primitiven Datentypen. Dies zeigt auch das folgende Zitat
 Um zu Demonstrieren, wie Problematisch diese zwei Punkte tatsächlich sind, soll die \emph{String}
 klasse, die im laufe dieses Papers vorgestellt wurde um die \emph{+} und \emph{=} Operatoren
 erweitert werden, wie im folgenden gezeigt:
-
+\newpage
 \begin{lstlisting}[
     caption={String-Operatoren},
     label=lst:StringOperatoren,
@@ -179,3 +179,9 @@ sollen in  einem \emph{String} zusammen gefügt werden. Dann ist es tatsächlich
 zuerst die gesamten \emph{Bytes} zu ermitteln, die Anzahl an \emph{Bytes} für den \emph{String} zu
 reservieren und am ende erst die einzelnen \emph{Strings} zu vereinen. Im folgenden wird ein
 Diagramm gezeigt, welches den Unterschied mit und ohne \emph{Reserve} zeigt:
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{bilder/StringReserve}
+	\caption[StringsZusammenfügen]{Strings zusammenfügen}
+	\label{img:StringsZusammenfügen}
+\end{figure}
