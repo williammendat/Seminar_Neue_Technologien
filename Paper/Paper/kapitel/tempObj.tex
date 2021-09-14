@@ -1,23 +1,23 @@
 \section{Temporäre Objekte}\label{sec:tempobj}
-Um Temporäre Objekte verstehen zu können, sollte zuerst geklärt werden, was \emph{lvalues} und
+Um temporäre Objekte verstehen zu können, sollte zuerst geklärt werden, was \emph{lvalues} und
 \emph{rvalues} sind und worin diese zu Unterscheiden sind. Die Antwort darauf soll folgendes
 Zitat liefern:
 \begin{zitat}
-	In concept (though not always in practice), rvalues correspond to temporary
-	objects returned from functions, while lvalues correspond to objects you can refer to, either by
-	name or by following a pointer or lvalue reference. A useful heuristic to determine whether an
-	expression is an lvalue is to ask if you can take its address. If you can, it typically is. If
-	you can’t, it’s usually an rvalue \cite{EffectiveC++}.
+    In concept (though not always in practice), rvalues correspond to temporary
+    objects returned from functions, while lvalues correspond to objects you can refer to, either by
+    name or by following a pointer or lvalue reference. A useful heuristic to determine whether an
+    expression is an lvalue is to ask if you can take its address. If you can, it typically is. If
+    you can’t, it’s usually an rvalue \cite{EffectiveC++}.
 \end{zitat}
-Wie zu sehen ist, resultieren \emph{rvalues} oft in Temporären Objekten. Diese Objekte sind in so
-fern schlecht, da diese vom Compiler erzeugt werden nur um Daten zu servieren, um dann sofort
+Wie zu sehen ist, resultieren \emph{rvalues} oft in temporären Objekten. Diese Objekte sind
+insofern schlecht, da diese vom Compiler erzeugt werden, nur um Daten zu servieren, um dann sofort
 wieder verworfen zu werden. Solch ein Verhalten frisst dann unnötigerweise Performance
-.\cite{HandsOn}
+\cite{HandsOn}[vgl].
 \newline
 \newline
-Um ein solches Verhalten darzustellen, wird im folgenden eine Simple eigen Implementation der
-\emph{String} klasse, sowie die Klasse \emph{Person}, die eine \emph{const} Referenz übergeben im
-Konstruktor übergeben bekommt gezeigt:
+Um ein solches Verhalten darzustellen, wird im Folgenden eine simple eigen Implementation der
+\emph{String} klasse sowie die Klasse \emph{Person}, die eine \emph{const} Referenz übergeben im
+Konstruktor übergeben bekommt, gezeigt:
 
 \begin{lstlisting}[
     caption={Implementation einer String klasse},
@@ -32,11 +32,14 @@ public:
 		memcpy(m_Data, string, m_Size);
 		m_Data[m_Size] = 0;
 	}
+
 	[...]
+
 protected:
     uint32_t m_Size;
     char* m_Data;
 };
+
 class Person{
 public:
 	//Konstructor akzeptiert auch rvalues
@@ -46,8 +49,8 @@ private:
 }
 \end{lstlisting}
 
-Wenn nun eine Instance von Person mit einem \emph{rvalue} erstellt wird, dann wird zuerst ein
+Wenn nun eine Instanz von Person mit einem \emph{rvalue} erstellt wird, dann wird zuerst ein
 Objekt vom Typ \emph{String} erzeugt, nur um dann die Daten an \emph{m\_Name} zu kopieren. Im
 späteren Verlauf dieses Papers wird noch auf das Kopieren von Objekten eingegangen. Jedoch kann
-für den Moment gesagt werden, dass das Verhalten, ein Objekt lediglich zu erzeugen nur um die
-Daten dann weiterzureichen sehr zu lasten der Performance gehen.
+für den Moment gesagt werden, dass das Verhalten, ein Objekt lediglich zu erzeugen, nur um die
+Daten dann weiterzureichen, sehr zulasten der Performance gehen.
