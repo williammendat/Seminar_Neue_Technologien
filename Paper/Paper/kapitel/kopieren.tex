@@ -11,7 +11,7 @@ soll im Folgenden mithilfe der String klasse dargestellt werden.
 \begin{lstlisting}[
     caption={Demonstration einer \emph{flachen} Kopie},
     label=lst:Flache-Kopie,
-    language=C++,frame=tlrb]
+    frame=tlrb]
 int main(int argc, char** argv){
 	String stringA = "Test";
 	String stringB = stringA;
@@ -37,7 +37,7 @@ klasse könnte der \emph{copy constructor} wie folgt aussehen:
 \begin{lstlisting}[
     caption={String \emph{copy construtor}},
     label=lst:KopierKonstruktor,
-    language=C++,frame=tlrb]
+    frame=tlrb]
 class String {
 	[...]
     String(const String& other) {

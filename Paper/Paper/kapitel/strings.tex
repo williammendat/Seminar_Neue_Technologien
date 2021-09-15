@@ -34,7 +34,7 @@ erweitert werden, wie im Folgenden gezeigt:
 \begin{lstlisting}[
     caption={String-Operatoren},
     label=lst:StringOperatoren,
-    language=C++,frame=tlrb]
+    frame=tlrb]
 	String& operator=(const String& other) noexcept {
 		printf("Copied via =\n");
 		if (this == &other)
@@ -83,7 +83,7 @@ Problematik zur Schau gestellt werden. Hierfür wird außerdem noch der \emph{ne
 \begin{lstlisting}[
     caption={String-Operationen},
     label=lst:StringOperationen,
-    language=C++,frame=tlrb]
+    frame=tlrb]
 static uint64_t Allocations = 0;
 
 void* operator new(size_t size) {
@@ -141,7 +141,7 @@ folgende Demonstration zu erkennen:
 \begin{lstlisting}[
 	caption={Small String Optimization},
 	label=lst:SmallString,
-	language=C++,frame=tlrb]
+	frame=tlrb]
 int main(int argc, char** argv)
 {
 	std::string string1 = "Hallo";

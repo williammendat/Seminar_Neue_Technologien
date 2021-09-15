@@ -8,7 +8,7 @@ Funktion beginnt mit dem Keyword \emph{constexpr} und könnte wie folgt aussehen
 \begin{lstlisting}[
     caption={Summe mittels \emph{constexpr}},
     label=lst:SummeConstexpr,
-    language=C++,frame=tlrb]
+    frame=tlrb]
 constexpr uint32_t Sum(uint16_t value) {
 	return value <= 1 ? 1 : (value + Sum(value - 1));
 }

@@ -41,6 +41,8 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \definecolor{block-gray}{gray}{0.95}
+\definecolor{darkblue}{rgb}{0,0,255}
+\definecolor{darkred}{rgb}{255,0,0}
 
 \newtcolorbox{zitat}[1][]{%
     colback=block-gray,
@@ -60,9 +62,9 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{white},
     commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
+    keywordstyle=\color{darkblue},
     numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
+    stringstyle=\color{darkred},
     basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,
     breaklines=true,
@@ -72,10 +74,15 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
-    tabsize=1
+    tabsize=1,
+    language = [11]C++
 }
 
 \lstset{style=mystyle}
+
+\lstset{
+    morekeywords = {uint32_t, uint16_t, std::string}
+}
 
 \pagestyle{fancy}
 \fancyhf{}
