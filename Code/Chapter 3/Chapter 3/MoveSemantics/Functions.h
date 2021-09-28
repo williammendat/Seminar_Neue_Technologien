@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "Expected.h"
 #include <random>
+#include <string>
 
 const int randomRange = 2;  // Give me a number between 0 and 2.
 const int errorInt = 0;     // Stop every time the number is 0.
@@ -137,3 +138,29 @@ void doStingReserverBenchmark(uint64_t& Allocations)
 
 	}
 }
+
+void PrintStringView(std::string_view string) {
+	std::cout << string << std::endl;
+}
+
+void PrintStdString(const std::string& string) {
+	std::cout << string << std::endl;
+}
+
+template <uint32_t Base>
+struct Sum
+{
+	static const uint64_t result = Base + Sum<Base - 1>::result;
+};
+
+// base case
+template<>
+struct Sum<1>
+{
+	static const uint64_t result = 1;
+};
+
+constexpr uint64_t SumConstExpr(const uint32_t value) {
+	return value <= 1 ? 1 : (value + SumConstExpr(value - 1));
+}
+

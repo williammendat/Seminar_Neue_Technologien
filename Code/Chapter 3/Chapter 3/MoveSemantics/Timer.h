@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <chrono>
+#include <sstream>
+
+static volatile uint64_t Allocations = 0;
 
 class Timer {
 public:
@@ -22,11 +25,16 @@ public:
 		auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 		
 		auto duration = end - start;
-		double ms = duration * 0.001;
+		double ms = round2(duration * 0.001);
+		double sec = round2(ms * 0.001);
 
-		std::cout << duration << " microseconds " << ms << " millisecounds" << std::endl;
+		std::cout << duration << " microseconds : " << ms << " millisecounds : " << sec << " sekunden" << std::endl;
 	}
 
 private:
 	std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepont;
+
+	double round2(double zahl) {
+		return  (double)((int)(zahl * 100)) / 100;
+	}
 };

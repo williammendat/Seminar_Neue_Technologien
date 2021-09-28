@@ -9,44 +9,37 @@
 #include <ranges>
 #include <vector>
 #include <memory>
+#include "Demo.h"
+#include <sstream>
+
 
 #define ARRAYSIZE 10
 #define TIMES 100000000000
 
-static uint64_t Allocations = 0;
+extern volatile uint64_t Allocations;
 
 void* operator new(size_t size) {
 	++Allocations;
 	return malloc(size);
 }
 
-void PrintStringView(std::string_view string) {
-	std::cout << string << " count: " << string.size() << std::endl;
-	auto test = string[0];
-	std::cout << test << std::endl;
-}
-
-template <uint32_t Base>
-struct Sum
-{
-	static const uint64_t result = Base + Sum<Base - 1>::result;
-};
-
-// base case
-template<>
-struct Sum<1>
-{
-	static const uint64_t result = 1;
-};
-
-constexpr uint64_t SumConstExpr(const uint32_t value) {
-	return value <= 1 ? 1 : (value + SumConstExpr(value - 1));
-}
 
 int main(int argc, char** argv)
 {
-	uint32_t** array2D = new uint32_t * [5];
-	for (uint16_t i{}; i < 5; ++i)
-		array2D[i] = new uint32_t[5];
+	std::vector times = { 100000, 500000, 1000000 };
+	LevensteinDistanceDemo<std::string_view, std::string> Normal("Levenstein Distance", DoLevensteinDistance);
+	LevensteinDistanceDemo<std::string_view, std::string_view> Optimized("Levenstein Distance Optimized", DoLevensteinDistanceOptimized);
+	Allocations = 0;
+
+	for (uint32_t i = 0; i < times.size(); ++i) {
+		DoLevensteinDistanceBenchmark(times[i], Normal);
+		std::cout << std::endl;
+		DoLevensteinDistanceBenchmark(times[i], Optimized);
+
+		std::cout << "---------------------------------------" << std::endl;
+	}
+	std::cout << "Finished" << std::endl;
+
+	std::cin.get();
 }
 
