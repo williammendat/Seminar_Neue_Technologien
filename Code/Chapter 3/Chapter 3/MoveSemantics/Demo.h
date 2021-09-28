@@ -4,6 +4,7 @@
 #include "Expected.h"
 #include <string>
 #include <algorithm>
+#include <vector>
 
 extern volatile uint64_t Allocations;
 
@@ -13,8 +14,8 @@ private:
 	S name;
 	void (*Function)(T, T);
 public:
-	LevensteinDistanceDemo(S&& name, void (*Function)(T, T))
-		:name(std::move(name)), Function(Function)
+	LevensteinDistanceDemo(S name, void (*Function)(T, T))
+		:name(name), Function(Function)
 	{
 
 	}

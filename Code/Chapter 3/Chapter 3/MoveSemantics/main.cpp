@@ -27,8 +27,9 @@ void* operator new(size_t size) {
 int main(int argc, char** argv)
 {
 	std::vector times = { 100000, 500000, 1000000 };
-	LevensteinDistanceDemo<std::string_view, std::string> Normal("Levenstein Distance", DoLevensteinDistance);
-	LevensteinDistanceDemo<std::string_view, std::string_view> Optimized("Levenstein Distance Optimized", DoLevensteinDistanceOptimized);
+	LevensteinDistanceDemo Normal("Levenstein Distance", DoLevensteinDistance);
+	LevensteinDistanceDemo Optimized("Levenstein Distance Optimized", DoLevensteinDistanceOptimized);
+	 
 	Allocations = 0;
 
 	for (uint32_t i = 0; i < times.size(); ++i) {
