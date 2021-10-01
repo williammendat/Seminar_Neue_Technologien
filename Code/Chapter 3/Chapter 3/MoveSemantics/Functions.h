@@ -147,6 +147,10 @@ void PrintStdString(const std::string& string) {
 	std::cout << string << std::endl;
 }
 
+void PrintTest() {
+	std::cout << "Test" << std::endl;
+}
+
 template <uint32_t Base>
 struct Sum
 {
