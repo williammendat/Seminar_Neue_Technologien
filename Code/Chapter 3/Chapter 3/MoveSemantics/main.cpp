@@ -23,6 +23,17 @@ void* operator new(size_t size) {
 	return malloc(size);
 }
 
+class Document {
+	bool test;
+	uint64_t test2;
+	uint32_t test3;
+};
+
+class Document2 {
+	bool test;
+	uint32_t test3;
+	uint64_t test2;
+};
 
 int main(int argc, char** argv)
 {
@@ -40,6 +51,9 @@ int main(int argc, char** argv)
 		std::cout << "---------------------------------------" << std::endl;
 	}
 	std::cout << "Finished" << std::endl;
+
+	std::cout << sizeof(Document) << std::endl;
+	std::cout << sizeof(Document2) << std::endl;
 
 	std::cin.get();
 }
